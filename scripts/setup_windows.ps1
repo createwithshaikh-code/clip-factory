@@ -15,6 +15,8 @@ if (-not (Have "winget")) { Write-Host "winget is missing. Update 'App Installer
 if (-not (Have "ffmpeg")) { winget install --id Gyan.FFmpeg -e --accept-source-agreements --accept-package-agreements }
 if (-not (Have "uv"))     { winget install --id astral-sh.uv -e --accept-source-agreements --accept-package-agreements }
 if (-not (Have "py"))     { winget install --id Python.Python.3.12 -e --accept-source-agreements --accept-package-agreements }
+# yt-dlp needs a JavaScript runtime for YouTube downloads
+if (-not (Have "deno"))   { winget install --id DenoLand.Deno -e --accept-source-agreements --accept-package-agreements }
 # ctranslate2 / onnxruntime (used by faster-whisper) need the Visual C++ runtime
 winget install --id Microsoft.VCRedist.2015+.x64 -e --accept-source-agreements --accept-package-agreements
 if (-not (Have "git"))    { winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements }
