@@ -96,7 +96,7 @@ def cmd_prepare(args) -> int:
     from .transcribe import prepare
 
     prof = load_channel(args.channel)
-    wd = download(args.input, args.channel) if _is_url(args.input) else ingest_local(Path(args.input), args.channel, args.copy)
+    wd = download(args.input, args.channel, int(prof["video"].get("download_max_height", 1080))) if _is_url(args.input) else ingest_local(Path(args.input), args.channel, args.copy)
     meta = read_meta(wd)
     digest = prepare(wd, source_path(wd), prof, meta.get("title") or "")
     from .discover import record_source

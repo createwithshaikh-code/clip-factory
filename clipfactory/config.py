@@ -28,7 +28,7 @@ DEFAULT_PROFILE: dict = {
     "language": "en",
     "sources": [],
     "clip": {"min_seconds": 20, "max_seconds": 45, "target_seconds": 30},
-    "video": {"width": 1080, "height": 1920, "fps": 30, "crf": 20, "preset": "medium"},
+    "video": {"width": 1080, "height": 1920, "fps": 30, "crf": 20, "preset": "medium", "download_max_height": 1080},
     "layout": "face",  # face | fit_blur
     "captions": {
         "enabled": True,

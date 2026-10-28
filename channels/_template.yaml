@@ -14,6 +14,7 @@ research_searches:
 
 posts_per_day: 2
 clip: {min_seconds: 20, max_seconds: 45, target_seconds: 30}
+video: {download_max_height: 1080}   # 720 downloads ~2x faster and uses half the disk; clips look a bit softer
 layout: face            # face = follow the face, fit_blur = whole frame over blurred background (gameplay)
 
 captions:
