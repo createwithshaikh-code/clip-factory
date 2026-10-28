@@ -22,9 +22,13 @@ def cmd_check(args) -> int:
         try:
             m = __import__(mod)
             print(f"  ok  {mod} {getattr(m, '__version__', '')}")
-        except ImportError:
+        except ImportError as exc:
             ok = False
-            print(f"  MISSING  {mod}  -> pip install -r requirements.txt")
+            print(f"  MISSING  {mod}: {exc}")
+            if "DLL" in str(exc):
+                print("           -> install the Visual C++ runtime: winget install Microsoft.VCRedist.2015+.x64")
+            else:
+                print("           -> pip install -r requirements.txt")
     try:
         import cv2
 
