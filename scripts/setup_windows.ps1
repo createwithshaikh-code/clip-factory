@@ -32,12 +32,16 @@ if (-not (Test-Path .\.venv\Scripts\python.exe)) { Write-Host "Could not create 
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 if ($LASTEXITCODE -ne 0) { Write-Host "pip install failed. Copy the red error above and send it."; exit 1 }
 
-if (-not [Environment]::GetEnvironmentVariable("ELEVENLABS_MCP_BASE_PATH", "User")) {
+if (-not [Environment]::GetEnvironmentVariable("ELEVENLABS_API_KEY", "User")) {
   $key = Read-Host "ElevenLabs API key (Enter to skip)"
   if ($key) { [Environment]::SetEnvironmentVariable("ELEVENLABS_API_KEY", $key, "User") }
-  [Environment]::SetEnvironmentVariable("ELEVENLABS_MCP_BASE_PATH", $Repo, "User")
-  Write-Host "Saved. Open a new terminal so it takes effect."
 }
+# Always point at this copy of the repo (it may have moved to another drive)
+[Environment]::SetEnvironmentVariable("ELEVENLABS_MCP_BASE_PATH", $Repo, "User")
+# Keep the Whisper models next to the repo instead of filling up C:
+$hf = Join-Path $Repo ".models"
+[Environment]::SetEnvironmentVariable("HF_HOME", $hf, "User")
+$env:HF_HOME = $hf
 
 .\.venv\Scripts\python.exe -m clipfactory check
 Write-Host ""

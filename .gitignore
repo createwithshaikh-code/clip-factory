@@ -12,3 +12,4 @@ assets/music/**/*.flac
 assets/music/**/*.ogg
 .DS_Store
 Thumbs.db
+.models/
