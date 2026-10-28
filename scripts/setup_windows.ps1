@@ -3,6 +3,11 @@
 $ErrorActionPreference = "Stop"
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $Repo = (Get-Location).Path
+if ($Repo -like "$env:WINDIR*") {
+  Write-Host "This folder is inside $env:WINDIR. Clone the repo into your user folder instead:"
+  Write-Host "  cd `$HOME; git clone https://github.com/createwithshaikh-code/clip-factory.git"
+  exit 1
+}
 
 function Have($cmd) { return [bool](Get-Command $cmd -ErrorAction SilentlyContinue) }
 
@@ -21,6 +26,7 @@ if ($LASTEXITCODE -eq 0) { py -3.12 -m venv .venv } else { py -3 -m venv .venv }
 if (-not (Test-Path .\.venv\Scripts\python.exe)) { Write-Host "Could not create .venv. Close this window, open a new PowerShell and run the script again."; exit 1 }
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { Write-Host "pip install failed. Copy the red error above and send it."; exit 1 }
 
 if (-not [Environment]::GetEnvironmentVariable("ELEVENLABS_MCP_BASE_PATH", "User")) {
   $key = Read-Host "ElevenLabs API key (Enter to skip)"
