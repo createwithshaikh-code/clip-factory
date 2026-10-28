@@ -172,6 +172,60 @@ def cmd_status(args) -> int:
     return 0
 
 
+def cmd_assets(args) -> int:
+    from .assets import build_catalog
+
+    build_catalog()
+    return 0
+
+
+def cmd_frames(args) -> int:
+    """Contact sheet of frames at the given times, so Claude can see what happens on screen."""
+    import cv2
+    import numpy as np
+
+    from .download import source_path
+
+    wd = WORK_DIR / args.video_id
+    cap = cv2.VideoCapture(str(source_path(wd)))
+    tiles = []
+    for t in args.times:
+        cap.set(cv2.CAP_PROP_POS_MSEC, float(t) * 1000)
+        ok, frame = cap.read()
+        if not ok:
+            continue
+        frame = cv2.resize(frame, (480, int(frame.shape[0] * 480 / frame.shape[1])))
+        cv2.putText(frame, f"{float(t):.1f}s", (10, 34), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 5)
+        cv2.putText(frame, f"{float(t):.1f}s", (10, 34), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 255, 255), 2)
+        tiles.append(frame)
+    cap.release()
+    if not tiles:
+        raise SystemExit("No frames could be read at those times.")
+    cols = min(4, len(tiles))
+    blank = np.zeros_like(tiles[0])
+    while len(tiles) % cols:
+        tiles.append(blank)
+    rows = [np.hstack(tiles[i:i + cols]) for i in range(0, len(tiles), cols)]
+    out_dir = wd / "frames"
+    out_dir.mkdir(exist_ok=True)
+    out = out_dir / f"sheet_{'_'.join(str(int(float(t))) for t in args.times[:6])}.jpg"
+    cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 80])
+    print(f"Wrote {out}  (open it to see the frames)")
+    return 0
+
+
+def cmd_words(args) -> int:
+    """Word-level timestamps between two times, for placing SFX and zooms exactly."""
+    tpath = WORK_DIR / args.video_id / "transcript.json"
+    transcript = json.loads(tpath.read_text(encoding="utf-8"))
+    for seg in transcript.get("segments", []):
+        for w in seg.get("words", []):
+            if args.start <= w["start"] <= args.end:
+                rel = w["start"] - args.start
+                print(f"{w['start']:9.2f}s  (+{rel:5.2f})  {w['word']}")
+    return 0
+
+
 def cmd_queue(args) -> int:
     from .discover import update_queue
 
@@ -232,6 +286,18 @@ def main(argv: list[str] | None = None) -> int:
 
     sub.add_parser("status", help="show every video in work/ and how far it got").set_defaults(func=cmd_status)
     sub.add_parser("queue", help="refresh ops/queue.csv (rendered, not yet posted)").set_defaults(func=cmd_queue)
+    sub.add_parser("assets", help="measure sfx/music and write assets/catalog.md for choosing them").set_defaults(func=cmd_assets)
+
+    p = sub.add_parser("words", help="word timestamps between two source times (and relative to the first)")
+    p.add_argument("video_id")
+    p.add_argument("start", type=float)
+    p.add_argument("end", type=float)
+    p.set_defaults(func=cmd_words)
+
+    p = sub.add_parser("frames", help="contact sheet of source frames at given seconds -> work/<id>/frames/")
+    p.add_argument("video_id")
+    p.add_argument("times", nargs="+", type=float)
+    p.set_defaults(func=cmd_frames)
 
     p = sub.add_parser("clean", help="delete temp files for a video (add --source to delete the download too)")
     p.add_argument("video_id")

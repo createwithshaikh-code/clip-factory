@@ -13,3 +13,4 @@ assets/music/**/*.ogg
 .DS_Store
 Thumbs.db
 .models/
+assets/catalog.md

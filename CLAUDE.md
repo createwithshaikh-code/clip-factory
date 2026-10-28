@@ -18,6 +18,8 @@ discover  ->  prepare  ->  (you) plan.json  ->  (you) voice files  ->  render  -
 | research | `python -m clipfactory discover <channel>` | `research/<channel>/videos.md`: the creator's newest videos with views, plus already-viral clips of them |
 | prepare | `python -m clipfactory prepare <url or file> --channel <channel>` | `work/<id>/source.mp4`, `transcript.json`, `digest.txt`, `plan.template.json` |
 | plan | you write `work/<id>/plan.json` | the edit plan (format: `docs/PLAN_FORMAT.md`) |
+| assets | `python -m clipfactory assets` | `assets/catalog.md`: every SFX/music file with its exact name and measured character |
+| words / frames | `python -m clipfactory words <id> <start> <end>`, `... frames <id> <t1> <t2>` | word timings for exact SFX placement; frame contact sheet to see the moment |
 | check | `python -m clipfactory validate work/<id>/plan.json` | errors to fix |
 | voice | ElevenLabs MCP `text_to_speech` | `work/<id>/voice/<clip_id>.mp3` (see `docs/ELEVENLABS.md`) |
 | render | `python -m clipfactory render work/<id>/plan.json` | `output/<channel>/<date>_<id>_<clip>.mp4` + `.txt` with title/description, refreshes `ops/queue.csv` |
@@ -64,9 +66,27 @@ Do not narrate what the viewer can see. Do not reuse the same sentence across cl
 
 ## SFX, music, zooms
 
-- Sound effects: only names that exist in `assets/sfx/` (run `python -m clipfactory check` to see the count, or list the folder).
-  Put them right after a punchline or reaction, 1-4 per clip, never on top of the key line. Vary them between clips.
-- `mood` picks the music folder: hype, funny, sad, emotional, chill, suspense.
+You cannot hear audio, so study the assets before every plan:
+
+1. Run `./cf assets` and read `assets/catalog.md`. It lists every sound effect by its exact **name** (use that
+   name in plan.json), its length, and its measured character (instant hit vs build-up, short vs sustained,
+   deep/bassy vs bright/sharp), plus team notes from `assets/sfx/notes.yaml`. Music is listed per mood folder with tempo.
+2. Match the effect to the moment, using the file name, the notes and the character:
+   - shocking line / big reveal / awkward silence -> deep instant hit (vine_boom style), right after the line ends
+   - "bruh", "oh my god", record scratch, crickets -> on the reaction to something dumb or awkward
+   - whoosh / swish -> on a cut, a zoom or a hook-text change
+   - airhorn, crowd, hype stingers -> the peak of a hype moment (in hype mood only)
+   - sad violin / emotional stingers -> ironic sad moments
+   If the purpose of a file is not clear from its name and notes, do not use it; mention it in your report so the
+   team can add a note.
+3. Time them on the word: `./cf words <video_id> <start> <end>` prints each word's time in the source and
+   relative to `start`. Put the SFX 0.1-0.3 s after the last word of the line it reacts to, never on top of speech
+   that matters. 1-4 effects per clip; do not use the same effect twice in a row in one clip; vary across clips.
+4. Music `mood`: pick the folder whose feel matches the whole clip (hype, funny, sad, emotional, chill, suspense).
+   Faster tempo for hype, slower for sad/emotional. If a mood folder is empty, choose the nearest mood that has tracks.
+5. See the moment before you choose it when you are unsure what is happening on screen:
+   `./cf frames <video_id> <t1> <t2> ...` writes a contact sheet image in `work/<id>/frames/`; open it.
+
 - `zooms`: punch in (scale 1.2-1.45, dur 0.6-1.5) on the reaction face or the key line. Speaker changes and SFX already get small automatic punches.
 - `layout`: `face` follows the face (talking, IRL, podcasts). `fit_blur` shows the whole frame (gameplay, wide shots, DIY).
 

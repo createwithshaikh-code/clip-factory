@@ -27,3 +27,17 @@ Google Drive/Dropbox and point the channel to it with `music.folder: "/path/to/s
 
 Optional. Drop a bold `.ttf` (for example Montserrat Black or Bebas Neue from Google Fonts) and set
 `captions.font: "Montserrat-Black.ttf"` in a channel file. Without one, the system's bold font is used.
+
+## Notes for Claude (optional, recommended)
+
+Claude cannot hear the files. `./cf assets` measures each one (instant hit or build-up, short or long,
+deep or bright, music tempo) and writes `assets/catalog.md`, which Claude reads before every plan.
+If a file name does not say what it is for, add a line to `assets/sfx/notes.yaml` (file name without extension):
+
+```yaml
+vine_boom: deep boom, right after a shocking line
+bruh: reaction to something dumb
+sfx_017: record scratch, plot twist
+```
+
+Music goes in mood folders: `assets/music/hype/`, `funny/`, `sad/`, `emotional/`, `chill/`, `suspense/`.

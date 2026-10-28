@@ -64,6 +64,9 @@ repo ফোল্ডারে `claude` চালান, তারপর লি�
 .\cf.cmd check                      # সব ইনস্টল আছে কি না
 .\cf.cmd discover <channel>         # ক্রিয়েটরের ভিডিও আর আগে ভাইরাল হওয়া ক্লিপের লিস্ট -> research/<channel>/videos.md
 .\cf.cmd prepare <url|file> --channel <channel>   # ডাউনলোড + ট্রান্সক্রিপ্ট + digest.txt
+.\cf.cmd assets                     # সব SFX/মিউজিক মেপে assets/catalog.md বানায় (Claude এটা পড়ে বাছাই করে)
+.\cf.cmd words <id> <start> <end>   # প্রতিটা শব্দের সময় (SFX ঠিক জায়গায় বসাতে)
+.\cf.cmd frames <id> <t1> <t2> ...  # ওই সময়গুলোর ছবি work/<id>/frames/-এ
 .\cf.cmd validate work/<id>/plan.json
 .\cf.cmd render work/<id>/plan.json [--only c01 c02]
 .\cf.cmd status                     # work/-এ কোন ভিডিও কতদূর গেছে
