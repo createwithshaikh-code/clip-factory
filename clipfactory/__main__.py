@@ -26,9 +26,9 @@ def cmd_check(args) -> int:
                 load_whisper()
             m = __import__(mod)
             print(f"  ok  {mod} {getattr(m, '__version__', '')}")
-        except ImportError as exc:
+        except Exception as exc:  # a blocked DLL can raise OSError as well as ImportError
             ok = False
-            print(f"  MISSING  {mod}: {exc}")
+            print(f"  MISSING  {mod}: {type(exc).__name__}: {exc}")
             if "DLL" in str(exc):
                 print("           -> install the Visual C++ runtime: winget install Microsoft.VCRedist.2015+.x64")
             else:
