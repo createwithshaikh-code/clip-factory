@@ -20,6 +20,10 @@ def cmd_check(args) -> int:
     print(f"Python {sys.version.split()[0]}  ({sys.platform})")
     for mod in ("cv2", "numpy", "PIL", "yaml", "yt_dlp", "faster_whisper"):
         try:
+            if mod == "faster_whisper":
+                from .transcribe import load_whisper
+
+                load_whisper()
             m = __import__(mod)
             print(f"  ok  {mod} {getattr(m, '__version__', '')}")
         except ImportError as exc:

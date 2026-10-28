@@ -10,6 +10,34 @@ import numpy as np
 from .ffmpeg import extract_audio
 
 
+def load_whisper():
+    """Import faster-whisper, working around a blocked PyAV.
+
+    faster-whisper imports PyAV (`av`) only to decode audio files. Windows Smart App
+    Control sometimes blocks PyAV's DLLs. We always hand whisper a numpy array that
+    ffmpeg already decoded, so a stand-in `av` module is enough when the real one fails.
+    """
+    try:
+        import av  # noqa: F401
+    except ImportError as exc:
+        import sys
+        import types
+
+        print(f"  (PyAV could not load: {exc}. Using ffmpeg for audio instead.)")
+        for name in [m for m in sys.modules if m == "av" or m.startswith("av.")]:
+            del sys.modules[name]
+        sys.modules["av"] = types.ModuleType("av")
+    from faster_whisper import WhisperModel
+
+    return WhisperModel
+
+
+def read_wav_float(path: Path) -> np.ndarray:
+    with wave.open(str(path), "rb") as wf:
+        raw = wf.readframes(wf.getnframes())
+    return np.frombuffer(raw, dtype=np.int16).astype(np.float32) / 32768.0
+
+
 def _pick_device(device: str) -> tuple[str, str]:
     if device not in ("auto", ""):
         return device, "float16" if device == "cuda" else "int8"
@@ -26,15 +54,15 @@ def _pick_device(device: str) -> tuple[str, str]:
 def transcribe(audio_wav: Path, out_json: Path, model_name: str = "small", language: str | None = "en",
                device: str = "auto") -> dict:
     try:
-        from faster_whisper import WhisperModel
+        WhisperModel = load_whisper()
     except ImportError as exc:
-        raise SystemExit("faster-whisper is not installed: pip install -r requirements.txt") from exc
+        raise SystemExit(f"faster-whisper could not load: {exc}\nRun: .\\cf.cmd check") from exc
 
     dev, compute = _pick_device(device)
     print(f"Transcribing with whisper '{model_name}' on {dev} ({compute}). First run downloads the model.")
     model = WhisperModel(model_name, device=dev, compute_type=compute)
     segments, info = model.transcribe(
-        str(audio_wav), language=language or None, word_timestamps=True, vad_filter=True, beam_size=5,
+        read_wav_float(audio_wav), language=language or None, word_timestamps=True, vad_filter=True, beam_size=5,
     )
     data = {"language": info.language, "duration": info.duration, "segments": []}
     for seg in segments:
