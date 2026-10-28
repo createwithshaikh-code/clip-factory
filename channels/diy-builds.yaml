@@ -10,6 +10,6 @@ posts_per_day: 2
 layout: fit_blur
 captions: {highlight: "#4FC3F7"}
 commentary:
-  engine: elevenlabs
+  engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""
   persona: "Calm maker, explains the trick in one line"

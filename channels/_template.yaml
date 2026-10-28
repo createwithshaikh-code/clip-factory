@@ -35,7 +35,7 @@ original_audio: {volume: 1.0, duck_during_commentary: 0.25}
 
 # Commentary voice: elevenlabs | file | system | piper | none
 commentary:
-  engine: elevenlabs
+  engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""             # ElevenLabs voice name for this channel (give each channel its own voice)
   persona: "Hype US commentator, short punchy sentences"
   volume: 1.0

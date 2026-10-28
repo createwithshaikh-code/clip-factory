@@ -10,6 +10,6 @@ posts_per_day: 2
 layout: face
 captions: {highlight: "#FF3B30"}
 commentary:
-  engine: elevenlabs
+  engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""
   persona: "High energy, short punchy lines"
