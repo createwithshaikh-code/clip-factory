@@ -1,4 +1,4 @@
-"""Finding and running ffmpeg the same way on macOS, Windows and Linux."""
+"""Finding and running ffmpeg on Windows (and Linux)."""
 from __future__ import annotations
 
 import shutil
@@ -18,8 +18,8 @@ def ffmpeg_bin() -> str:
         return imageio_ffmpeg.get_ffmpeg_exe()
     except Exception as exc:  # pragma: no cover - depends on machine
         raise SystemExit(
-            "ffmpeg was not found. Install it (Mac: `brew install ffmpeg`, "
-            "Windows: `winget install Gyan.FFmpeg`) or `pip install imageio-ffmpeg`."
+            "ffmpeg was not found. Install it with "
+            "`winget install Gyan.FFmpeg` or `pip install imageio-ffmpeg`."
         ) from exc
 
 

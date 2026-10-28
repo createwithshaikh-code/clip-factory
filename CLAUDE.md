@@ -23,9 +23,9 @@ discover  ->  prepare  ->  (you) plan.json  ->  (you) voice files  ->  render  -
 | render | `python -m clipfactory render work/<id>/plan.json` | `output/<channel>/<date>_<id>_<clip>.mp4` + `.txt` with title/description, refreshes `ops/queue.csv` |
 
 Run every command from the repo root through the shortcut, which uses the project's `.venv`:
-`./cf <command>` (macOS, and Git Bash on Windows, which is what Claude Code uses there) or `cf <command>`
-(Windows cmd/PowerShell). So `python -m clipfactory render ...` above means `./cf render ...`.
-If something is missing, run `./cf check`. Setup: `scripts/setup_mac.sh` or `scripts/setup_windows.ps1`.
+`./cf <command>` (Git Bash, which is what Claude Code uses on Windows) or `cf <command>`
+(cmd/PowerShell). So `python -m clipfactory render ...` above means `./cf render ...`.
+If something is missing, run `./cf check`. Setup: `scripts/setup_windows.ps1`.
 
 ## Before you start any channel's work
 
@@ -81,4 +81,4 @@ prepare -> plan `posts_per_day` clips (make 1-2 spare) -> voice -> render -> app
 - Keep times in plan.json in seconds. Times inside a clip (sfx, zooms, commentary_at) are relative to the clip start.
 - After rendering, open 1-2 frames (`ffmpeg -ss 2 -i <mp4> -frames:v 1 frame.png`) and look at them if you can.
 - Never commit `work/`, `output/`, music files, `.env` or API keys. They are git-ignored.
-- Code style: small modules in `clipfactory/`, pathlib everywhere, no OS-specific paths (Windows and macOS must both work).
+- Code style: small modules in `clipfactory/`, pathlib everywhere, no hard-coded paths. The team works on Windows.

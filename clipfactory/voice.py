@@ -5,7 +5,7 @@ engine options (channel YAML -> commentary.engine):
   elevenlabs  Claude Code makes the voice with the ElevenLabs MCP and saves it as
               work/<video_id>/voice/<clip_id>.mp3 (see docs/ELEVENLABS.md)
   file    you record it yourself: work/<video_id>/voice/<clip_id>.wav|.mp3|.m4a
-  system  the computer's built-in voice (macOS `say`, Windows SAPI via PowerShell)
+  system  Windows' built-in voice (SAPI via PowerShell), free
   piper   free local neural voice: https://github.com/rhasspy/piper  (set commentary.voice to the .onnx model)
 """
 from __future__ import annotations
@@ -33,13 +33,6 @@ def _to_wav(src: Path, dst: Path) -> Path:
 
 def _system_tts(text: str, raw: Path, voice: str, rate: int) -> Path:
     system = platform.system()
-    if system == "Darwin":
-        out = raw.with_suffix(".aiff")
-        cmd = ["say", "-o", str(out), "-r", str(rate)]
-        if voice:
-            cmd += ["-v", voice]
-        subprocess.run(cmd + [text], check=True)
-        return out
     if system == "Windows":
         out = raw.with_suffix(".wav")
         with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:

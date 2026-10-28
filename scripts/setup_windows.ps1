@@ -15,7 +15,10 @@ if (-not (Have "git"))    { winget install --id Git.Git -e --accept-source-agree
 # Refresh PATH for this window so the new tools are found
 $env:Path = [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [Environment]::GetEnvironmentVariable("Path", "User")
 
-py -3.12 -m venv .venv
+# Prefer Python 3.12; fall back to whatever Python 3 the launcher finds
+py -3.12 -c "import sys" 2>$null
+if ($LASTEXITCODE -eq 0) { py -3.12 -m venv .venv } else { py -3 -m venv .venv }
+if (-not (Test-Path .\.venv\Scripts\python.exe)) { Write-Host "Could not create .venv. Close this window, open a new PowerShell and run the script again."; exit 1 }
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 

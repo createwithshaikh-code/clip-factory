@@ -104,14 +104,6 @@ def system_font_candidates() -> list[Path]:
         windir = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Fonts"
         names = ["impact.ttf", "arialbd.ttf", "seguibl.ttf", "segoeuib.ttf", "verdanab.ttf"]
         return [windir / n for n in names]
-    if system == "Darwin":
-        return [
-            Path("/System/Library/Fonts/Supplemental/Impact.ttf"),
-            Path("/System/Library/Fonts/Supplemental/Arial Black.ttf"),
-            Path("/System/Library/Fonts/Supplemental/Arial Bold.ttf"),
-            Path("/Library/Fonts/Arial Bold.ttf"),
-            Path("/System/Library/Fonts/Helvetica.ttc"),
-        ]
     return [
         Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
         Path("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"),

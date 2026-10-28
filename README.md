@@ -2,7 +2,7 @@
 
 লম্বা স্ট্রিম বা ভিডিও থেকে ৩০ থেকে ৪৫ সেকেন্ডের ভার্টিকাল Shorts বানানোর টুল, অনেকগুলো চ্যানেলের জন্য।
 এতে মুখ ট্র্যাক করে জুম, শব্দ ধরে হাইলাইট হওয়া সাবটাইটেল, হুক টেক্সট, মুড অনুযায়ী মিউজিক, সাউন্ড ইফেক্ট আর কমেন্টারি ভয়েস থাকে।
-Mac আর Windows দুটোতেই চলে।
+Windows-এর জন্য বানানো।
 
 **কে কী করে:**
 - **Claude Code** (আপনার Claude সাবস্ক্রিপশন): রিসার্চ, ভালো মুহূর্ত বাছাই, কমেন্টারি লেখা, ElevenLabs দিয়ে ভয়েস বানানো আর রেন্ডার চালানো। আলাদা কোনো LLM API লাগে না।
@@ -10,26 +10,27 @@ Mac আর Windows দুটোতেই চলে।
 - **ChatGPT এজেন্ট**: ট্রেন্ড রিসার্চ, স্ট্রাটেজি, কখন পোস্ট করবেন, পারফরম্যান্স দেখা ([docs/CHATGPT_AGENT.md](docs/CHATGPT_AGENT.md))।
 - **আপনারা**: আপলোড।
 
-## ১. প্রতিটা কম্পিউটারে একবার সেটআপ
+## ১. প্রতিটা Windows পিসিতে একবার সেটআপ
 
-আগে [Claude Code](https://docs.claude.com/en/docs/claude-code) ইনস্টল করে লগইন করুন। তারপর:
+PowerShell খুলে ক্রম ধরে এগুলো চালান:
 
-**Mac**
-```bash
-git clone https://github.com/<আপনার-অ্যাকাউন্ট>/clip-factory.git
-cd clip-factory
-bash scripts/setup_mac.sh
-```
-
-**Windows** (PowerShell)
 ```powershell
-git clone https://github.com/<আপনার-অ্যাকাউন্ট>/clip-factory.git
+# ১. Git ইনস্টল (Claude Code-এরও এটা লাগে)
+winget install --id Git.Git -e
+
+# ২. Claude Code ইনস্টল, তারপর একবার `claude` চালিয়ে লগইন করুন
+irm https://claude.ai/install.ps1 | iex
+
+# ৩. নতুন একটা PowerShell খুলে repo নামান আর সেটআপ চালান
+git clone https://github.com/createwithshaikh-code/clip-factory.git
 cd clip-factory
 powershell -ExecutionPolicy Bypass -File scripts\setup_windows.ps1
 ```
 
-সেটআপ স্ক্রিপ্ট ffmpeg, Python 3.12, uv আর দরকারি প্যাকেজ ইনস্টল করে, আর ElevenLabs API key চেয়ে নেয়।
-শেষ হলে নতুন একটা টার্মিনাল খুলুন, তারপর `./cf check` (Windows-এ `cf check`) চালিয়ে দেখুন সব ঠিক আছে কি না।
+সেটআপ স্ক্রিপ্ট ffmpeg, Python 3.12, uv আর দরকারি প্যাকেজ ইনস্টল করে। ElevenLabs API key চাইলে key না থাকলে শুধু Enter চাপুন।
+শেষ হলে নতুন একটা PowerShell খুলে `cd clip-factory`, তারপর `.\cf.cmd check` চালিয়ে দেখুন সব ঠিক আছে কি না।
+
+ElevenLabs key না থাকলে Windows-এর ফ্রি বিল্ট-ইন ভয়েস ব্যবহার হবে (চ্যানেল ফাইলে `engine: system`)। key পেলে `engine: elevenlabs` করে দেবেন।
 
 তারপর:
 1. `assets/sfx/`-এ আপনার সাউন্ড ইফেক্ট রাখুন (যেমন `vine_boom.mp3`, `bruh.mp3`)। কোন নামে রাখবেন তা [assets/README.md](assets/README.md)-তে আছে।
@@ -52,7 +53,7 @@ repo ফোল্ডারে `claude` চালান, তারপর লি�
 ## নতুন চ্যানেল
 
 ```bash
-./cf new-channel nba-moments      # channels/nba-moments.yaml তৈরি হবে, খুলে এডিট করুন
+.\cf.cmd new-channel nba-moments      # channels/nba-moments.yaml তৈরি হবে, খুলে এডিট করুন
 ```
 
 প্রতিটা চ্যানেলের আলাদা ফন্ট, রঙ, ভয়েস, SFX আর মিউজিক ফোল্ডার দিন। তাহলে চ্যানেলগুলো একরকম দেখাবে না, আর YouTube-এর "inauthentic content" পলিসিতে আটকানোর ঝুঁকি কমবে।
@@ -60,21 +61,21 @@ repo ফোল্ডারে `claude` চালান, তারপর লি�
 ## হাতে চালানোর কমান্ড
 
 ```
-./cf check                      # সব ইনস্টল আছে কি না
-./cf discover <channel>         # ক্রিয়েটরের ভিডিও আর আগে ভাইরাল হওয়া ক্লিপের লিস্ট -> research/<channel>/videos.md
-./cf prepare <url|file> --channel <channel>   # ডাউনলোড + ট্রান্সক্রিপ্ট + digest.txt
-./cf validate work/<id>/plan.json
-./cf render work/<id>/plan.json [--only c01 c02]
-./cf status                     # work/-এ কোন ভিডিও কতদূর গেছে
-./cf queue                      # ops/queue.csv আপডেট
-./cf clean <id> [--source]      # অস্থায়ী ফাইল মুছে জায়গা খালি করা
+.\cf.cmd check                      # সব ইনস্টল আছে কি না
+.\cf.cmd discover <channel>         # ক্রিয়েটরের ভিডিও আর আগে ভাইরাল হওয়া ক্লিপের লিস্ট -> research/<channel>/videos.md
+.\cf.cmd prepare <url|file> --channel <channel>   # ডাউনলোড + ট্রান্সক্রিপ্ট + digest.txt
+.\cf.cmd validate work/<id>/plan.json
+.\cf.cmd render work/<id>/plan.json [--only c01 c02]
+.\cf.cmd status                     # work/-এ কোন ভিডিও কতদূর গেছে
+.\cf.cmd queue                      # ops/queue.csv আপডেট
+.\cf.cmd clean <id> [--source]      # অস্থায়ী ফাইল মুছে জায়গা খালি করা
 ```
 
 ## কয়েকটা কথা মনে রাখবেন
 
-- **মনিটাইজেশন:** YouTube শুধু কেটে বানানো ক্লিপে টাকা দেয় না, মিউজিক, SFX আর সাবটাইটেল থাকলেও না। প্রতিটা ক্লিপে নিজস্ব কমেন্টারি বা কনটেক্সট থাকা দরকার। `./cf validate` কমেন্টারি না থাকলে সতর্ক করে দেয়।
+- **মনিটাইজেশন:** YouTube শুধু কেটে বানানো ক্লিপে টাকা দেয় না, মিউজিক, SFX আর সাবটাইটেল থাকলেও না। প্রতিটা ক্লিপে নিজস্ব কমেন্টারি বা কনটেক্সট থাকা দরকার। `.\cf.cmd validate` কমেন্টারি না থাকলে সতর্ক করে দেয়।
 - **কপিরাইট:** খেলার ম্যাচ ফুটেজ আর জনপ্রিয় গান থেকে সবচেয়ে বেশি স্ট্রাইক আর ক্লেইম আসে। স্ট্রিমারদের অফিশিয়াল ক্লিপিং প্রোগ্রাম (যেমন Whop Content Rewards) সবচেয়ে নিরাপদ।
-- **স্পিড:** Nvidia GPU থাকলে ট্রান্সক্রিপ্ট অনেক দ্রুত হয়। Mac-এ CPU-তে `small` মডেল ভালো চলে। মান আরও ভালো চাইলে চ্যানেল ফাইলে `transcribe.model: medium` দিন।
+- **স্পিড:** Nvidia GPU থাকলে ট্রান্সক্রিপ্ট অনেক দ্রুত হয়। GPU না থাকলে CPU-তে `small` মডেল ভালো চলে। মান আরও ভালো চাইলে চ্যানেল ফাইলে `transcribe.model: medium` দিন।
 - **কম্পিউটারের মধ্যে শেয়ার:** কোড, চ্যানেল ফাইল, SFX আর `ops/` git দিয়ে শেয়ার হয়। মিউজিক ফোল্ডার Drive বা Dropbox দিয়ে শেয়ার করুন। `work/` আর `output/` প্রতিটা কম্পিউটারে আলাদা থাকে।
 
 ফোল্ডার: `clipfactory/` (কোড), `channels/` (চ্যানেল প্রোফাইল), `assets/` (sfx, music, fonts), `ops/` (strategy, ক্যালেন্ডার, লগ),
