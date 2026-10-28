@@ -1,0 +1,15 @@
+name: "kai-cenat"
+niche: "Kai Cenat stream moments: chaos, guests, reactions"
+language: en
+sources:
+  - https://www.youtube.com/@KaiCenat/streams
+research_searches:
+  - "Kai Cenat funny moments"
+  - "Kai Cenat viral stream moment"
+posts_per_day: 2
+layout: face
+captions: {highlight: "#00FF88"}
+commentary:
+  engine: elevenlabs
+  voice: ""
+  persona: "Hype stream insider, explains the backstory fast"

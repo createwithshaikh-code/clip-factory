@@ -1,0 +1,15 @@
+name: "druski"
+niche: "Druski: comedy skits, Coulda Been Records, live stream bits"
+language: en
+sources:
+  - https://www.youtube.com/@Druski/videos
+research_searches:
+  - "Druski funny moments"
+  - "Druski viral clip"
+posts_per_day: 2
+layout: face
+captions: {highlight: "#FFE600"}
+commentary:
+  engine: elevenlabs
+  voice: ""
+  persona: "Laid-back US comedy fan, reacts like a friend in the room"

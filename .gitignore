@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+work/
+output/
+research/*/videos.json
+assets/music/**/*.mp3
+assets/music/**/*.wav
+assets/music/**/*.m4a
+assets/music/**/*.flac
+assets/music/**/*.ogg
+.DS_Store
+Thumbs.db

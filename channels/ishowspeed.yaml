@@ -1,0 +1,15 @@
+name: "ishowspeed"
+niche: "IShowSpeed IRL streams, football, reactions"
+language: en
+sources:
+  - https://www.youtube.com/@IShowSpeed/streams
+research_searches:
+  - "IShowSpeed funniest moments"
+  - "IShowSpeed viral moment"
+posts_per_day: 2
+layout: face
+captions: {highlight: "#FF3B30"}
+commentary:
+  engine: elevenlabs
+  voice: ""
+  persona: "High energy, short punchy lines"

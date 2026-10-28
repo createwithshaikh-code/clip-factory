@@ -1,0 +1,15 @@
+name: "diy-builds"
+niche: "DIY builds: bows, slingshots, tables, tools (one idea per clip)"
+language: en
+sources:
+  - https://www.youtube.com/@CHANNEL/videos
+research_searches:
+  - "DIY how to make slingshot"
+  - "DIY wooden table build"
+posts_per_day: 2
+layout: fit_blur
+captions: {highlight: "#4FC3F7"}
+commentary:
+  engine: elevenlabs
+  voice: ""
+  persona: "Calm maker, explains the trick in one line"

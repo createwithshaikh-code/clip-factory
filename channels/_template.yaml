@@ -1,0 +1,43 @@
+# Channel profile. Copy with: python -m clipfactory new-channel <slug>
+# Anything you leave out uses the defaults in clipfactory/config.py.
+name: "SLUG"
+niche: "What this channel posts, in one line (Claude reads this when picking moments)"
+language: en            # whisper language; en for US streamers
+
+# Where the long videos come from (YouTube channel /videos or /streams pages, playlists, Twitch VODs)
+sources:
+  - https://www.youtube.com/@CHANNEL/streams
+# Searches that show which clips of this creator already went viral
+research_searches:
+  - "CREATOR funny moments"
+  - "CREATOR viral clip"
+
+posts_per_day: 2
+clip: {min_seconds: 20, max_seconds: 45, target_seconds: 30}
+layout: face            # face = follow the face, fit_blur = whole frame over blurred background (gameplay)
+
+captions:
+  font: ""              # a file in assets/fonts (e.g. Montserrat-Black.ttf); empty = system bold font
+  size: 86
+  words_per_line: 3
+  uppercase: true
+  y: 0.62               # 0 top .. 1 bottom
+  color: "#FFFFFF"
+  highlight: "#FFE600"
+  stroke: "#000000"
+  stroke_width: 7
+
+hook: {enabled: true, seconds: 3.0, size: 68, y: 0.16, color: "#000000", background: "#FFFFFF"}
+zoom: {base: 1.0, speaker_change_punch: 1.12, smoothing: 0.12}
+music: {enabled: true, volume: 0.12, folder: ""}    # folder empty = assets/music/<mood>/
+sfx: {enabled: true, volume: 0.9, folder: ""}       # folder empty = assets/sfx/
+original_audio: {volume: 1.0, duck_during_commentary: 0.25}
+
+# Commentary voice: elevenlabs | file | system | piper | none
+commentary:
+  engine: elevenlabs
+  voice: ""             # ElevenLabs voice name for this channel (give each channel its own voice)
+  persona: "Hype US commentator, short punchy sentences"
+  volume: 1.0
+
+transcribe: {model: small, device: auto}   # model: small (fast) | medium | large-v3 (best, slow on CPU)
