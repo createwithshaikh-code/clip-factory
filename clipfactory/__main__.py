@@ -119,6 +119,7 @@ def cmd_validate(args) -> int:
     from .audio import find_sfx
     from .download import read_meta
     from .plan import load_plan
+    from .seo import title_warnings
 
     path = Path(args.plan)
     plan = load_plan(path)
@@ -138,6 +139,7 @@ def cmd_validate(args) -> int:
                 warnings.append(f"{c['id']}: no commentary (reused-content risk)")
             if len(c.get("title", "")) > 70:
                 warnings.append(f"{c['id']}: title longer than 70 characters")
+            warnings.extend(title_warnings(c, prof.get("seo", {})))
     for w in warnings:
         print(f"  warning: {w}")
     print(f"OK: {len(plan['clips'])} clip(s), {len(warnings)} warning(s)")

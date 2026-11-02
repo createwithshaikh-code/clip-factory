@@ -41,4 +41,11 @@ commentary:
   persona: "Hype US commentator, short punchy sentences"
   volume: 1.0
 
+# Search metadata (docs/SEO.md). keyword must appear early in every title.
+seo:
+  keyword: "CREATOR"               # the exact name people type into search
+  aliases: []                      # other ways the title may name them ("Speed" for IShowSpeed)
+  hashtags: ["#CREATOR", "#shorts"] # 3-5, used when a clip has none
+  tags: ["CREATOR", "CREATOR funny moments", "CREATOR stream"]  # include common misspellings
+
 transcribe: {model: small, device: auto}   # model: small (fast) | medium | large-v3 (best, slow on CPU)

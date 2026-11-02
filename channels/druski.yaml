@@ -13,3 +13,9 @@ commentary:
   engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""
   persona: "Laid-back US comedy fan, reacts like a friend in the room"
+seo:                    # docs/SEO.md. keyword goes in every title; tags are evergreen, add moment tags per clip
+  keyword: "Druski"
+  aliases: ["Druski's"]
+  hashtags: ["#druski", "#comedy", "#shorts"]
+  tags: ["druski", "druski funny", "druski skit", "coulda been records", "druski coulda been records",
+         "druski live", "druski clips", "drewski", "druskii", "funny skits", "comedy skit"]

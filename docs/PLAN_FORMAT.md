@@ -25,8 +25,9 @@ Claude writes one `plan.json` per source video in `work/<video_id>/`. `prepare` 
       "zooms": [
         {"t": 6.4, "scale": 1.35, "dur": 1.0}
       ],
-      "description": "Druski at Coulda Been Records. #druski #comedy",
-      "hashtags": ["#shorts", "#druski", "#funny"]
+      "description": "Druski auditions a rapper at Coulda Been Records and it goes left fast.",
+      "hashtags": ["#druski", "#couldabeenrecords", "#shorts"],
+      "tags": ["druski audition", "coulda been records audition"]
     }
   ]
 }
@@ -36,7 +37,7 @@ Claude writes one `plan.json` per source video in `work/<video_id>/`. `prepare` 
 |---|---|---|
 | `id` | yes | unique in this plan, e.g. c01, c02 |
 | `start`, `end` | yes | seconds in the source video. Length must fit the channel (default 20-45 s; hard limit 8-60 s) |
-| `title` | yes | YouTube title, under 70 characters |
+| `title` | yes | YouTube title, under 70 characters, creator name in the first ~40 (rules: `docs/SEO.md`) |
 | `hook_text` | no | big text in a box at the top for the first `hook.seconds` (default 3 s). Short, caps |
 | `mood` | no | music folder: `hype`, `funny`, `sad`, `emotional`, `chill`, `suspense` (default hype) |
 | `layout` | no | `face` (follow the face) or `fit_blur` (whole frame over blurred background). Default from channel |
@@ -44,6 +45,7 @@ Claude writes one `plan.json` per source video in `work/<video_id>/`. `prepare` 
 | `commentary_at` | no | when the voice starts, seconds from clip start (default 0). Original audio is ducked while it plays |
 | `sfx` | no | `t` = seconds from clip start, `name` = file name in `assets/sfx` without extension, optional `volume` |
 | `zooms` | no | `t` seconds from clip start, `scale` (1.2-1.45 looks good), `dur` seconds held |
-| `description`, `hashtags` | no | written to the `.txt` next to the video for whoever uploads |
+| `description`, `hashtags` | no | written to the `.txt` next to the video for whoever uploads. 3-5 hashtags; if empty, the channel's `seo.hashtags` are used |
+| `tags` | no | search phrases for this moment (YouTube Studio tags). The channel's `seo.tags` are appended, capped at 500 characters |
 
 Captions come from the transcript automatically (word by word, centre of the screen).

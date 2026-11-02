@@ -56,6 +56,8 @@ DEFAULT_PROFILE: dict = {
     "original_audio": {"volume": 1.0, "duck_during_commentary": 0.25},
     "commentary": {"engine": "none", "voice": "", "rate": 185, "volume": 1.0},
     "transcribe": {"model": "small", "device": "auto"},
+    # Search metadata (docs/SEO.md). keyword = the name people search; aliases = other spellings.
+    "seo": {"keyword": "", "aliases": [], "tags": [], "hashtags": []},
 }
 
 

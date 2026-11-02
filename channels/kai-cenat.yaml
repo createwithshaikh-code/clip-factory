@@ -13,3 +13,9 @@ commentary:
   engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""
   persona: "Hype stream insider, explains the backstory fast"
+seo:                    # docs/SEO.md. keyword goes in every title; tags are evergreen, add moment tags per clip
+  keyword: "Kai Cenat"
+  aliases: ["Kai", "Kai Cenat's"]
+  hashtags: ["#kaicenat", "#kai", "#shorts"]
+  tags: ["kai cenat", "kai cenat stream", "kai cenat funny moments", "kai cenat live", "kai cenat clips",
+         "kai cenat reaction", "amp", "kai senat", "kai cenet", "twitch streamer", "funny stream moments"]

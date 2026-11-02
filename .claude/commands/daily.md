@@ -11,7 +11,8 @@ Follow CLAUDE.md. Steps:
 3. Run `./cf discover $ARGUMENTS`, then read `research/$ARGUMENTS/videos.md`.
    Use web search too: what did this creator do this week that people are talking about?
 4. Choose 1-2 source videos that are recent, popular, and NOT in `ops/sources_used.csv`.
-5. For each, do the /clip steps (prepare -> plan -> validate -> voice -> render). Make `posts_per_day` clips plus 1-2 spares.
+5. Write titles, descriptions and tags with `docs/SEO.md`, using the names/events from step 3.
+   For each source, do the /clip steps (prepare -> plan -> validate -> voice -> render). Make `posts_per_day` clips plus 1-2 spares.
 6. Append to `ops/calendar/$ARGUMENTS.md` (create it if needed) a table for the coming day(s):
    | date | time (US Eastern) | file | title | hook | why it should work |
    Use posting times from `ops/strategy.md`; if there are none, use 12:00 and 19:00 US Eastern.

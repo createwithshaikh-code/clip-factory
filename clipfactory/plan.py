@@ -67,7 +67,7 @@ TEMPLATE = {
             "id": "c01",
             "start": 0.0,
             "end": 30.0,
-            "title": "Short YouTube title (<= 70 chars)",
+            "title": "Creator name first + what happens (<= 70 chars, see docs/SEO.md)",
             "hook_text": "TEXT ON SCREEN FOR THE FIRST 3s",
             "mood": "funny",
             "layout": "face",
@@ -75,8 +75,9 @@ TEMPLATE = {
             "commentary_at": 0.0,
             "sfx": [{"t": 4.2, "name": "vine_boom"}],
             "zooms": [{"t": 4.2, "scale": 1.3, "dur": 0.8}],
-            "description": "Upload description",
+            "description": "Who, what, where in plain words, then one line of your take",
             "hashtags": ["#shorts"],
+            "tags": ["moment-specific search phrases; channel tags are added automatically"],
         }
     ],
 }
