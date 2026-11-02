@@ -13,3 +13,10 @@ commentary:
   engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""
   persona: "High energy, short punchy lines"
+seo:                    # docs/SEO.md. keyword goes in every title; tags are evergreen, add moment tags per clip
+  keyword: "IShowSpeed"
+  aliases: ["Speed", "IShowSpeed's", "Speed's"]
+  hashtags: ["#ishowspeed", "#speed", "#shorts"]
+  tags: ["ishowspeed", "speed", "ishowspeed stream", "ishowspeed funny moments", "ishowspeed live",
+         "ishowspeed irl", "speed irl stream", "ishowspeed football", "i show speed", "ishowspeed clips",
+         "ishow speed"]

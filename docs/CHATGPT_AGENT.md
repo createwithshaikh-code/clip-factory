@@ -30,6 +30,8 @@ Every day:
    - What to do more of / less of (hooks, length, commentary style), based on the numbers
    - Best 2 posting times in US Eastern for tomorrow
    - Anything to avoid (copyright claims, policy risks, repeated formats)
+   - Search terms trending right now for this creator (events, guests, places, meme phrases)
+     that US viewers are typing into YouTube, and which title patterns got the most views_7d
 4. Read ops/queue.csv and ops/calendar/*.md and produce the upload list for today:
    channel, file, title, description, hashtags, time.
 Keep every channel's content distinct: YouTube demonetises channels whose videos feel mass-produced

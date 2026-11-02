@@ -13,3 +13,7 @@ commentary:
   engine: system        # free built-in voice for testing; switch to elevenlabs once you have a key
   voice: ""
   persona: "Calm maker, explains the trick in one line"
+seo:                    # docs/SEO.md. No creator name here: the title names the THING built
+  keyword: ""
+  hashtags: ["#diy", "#howto", "#shorts"]
+  tags: ["diy", "how to make", "diy project", "woodworking", "diy build", "easy diy"]

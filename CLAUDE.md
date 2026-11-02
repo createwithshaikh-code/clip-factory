@@ -64,6 +64,14 @@ real added value. For every clip write `commentary`: 1-2 short spoken sentences 
 Do not narrate what the viewer can see. Do not reuse the same sentence across clips. Put the commentary at
 `commentary_at: 0` (intro) or at a natural pause (look for gaps between digest lines).
 
+## Titles, descriptions, tags (SEO for US viewers)
+
+Follow `docs/SEO.md`. In short: creator name (the channel's `seo.keyword`) in the first ~40 characters,
+then the guest/place/event people would search, then a curiosity hook. Never promise what the clip does
+not show. First description line says who/what/where. 3-5 hashtags. Add 2-5 moment `tags` per clip
+(channel tags are added automatically). Reuse names and events from high-view titles in
+`research/<channel>/videos.md`. `./cf validate` warns when a title misses the name.
+
 ## SFX, music, zooms
 
 You cannot hear audio, so study the assets before every plan:

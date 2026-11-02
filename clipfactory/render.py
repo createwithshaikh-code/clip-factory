@@ -15,6 +15,7 @@ from .config import OUTPUT_DIR, load_channel, resolve_font
 from .download import read_meta, source_path
 from .ffmpeg import cut_video, ffmpeg_bin, open_raw_writer, run
 from .plan import load_plan
+from .seo import build_tags, hashtags
 from .transcribe import words_between
 from .voice import commentary_audio
 
@@ -112,21 +113,24 @@ def render_clip(clip: dict, wd: Path, source: Path, transcript: dict, profile: d
     final = out_dir / f"{base}.mp4"
     run(["-i", video_only, "-i", mixed, "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "copy",
          "-movflags", "+faststart", "-shortest", final])
-    _write_upload_notes(final.with_suffix(".txt"), clip, read_meta(wd))
+    _write_upload_notes(final.with_suffix(".txt"), clip, read_meta(wd), profile.get("seo", {}))
     if not keep_temp:
         shutil.rmtree(tmp, ignore_errors=True)
     print(f"  -> {final}  ({time.time() - t0:.0f}s)")
     return final
 
 
-def _write_upload_notes(path: Path, clip: dict, meta: dict) -> None:
-    tags = " ".join(clip.get("hashtags", []))
+def _write_upload_notes(path: Path, clip: dict, meta: dict, seo: dict | None = None) -> None:
+    seo = seo or {}
+    tags = " ".join(hashtags(clip, seo))
+    yt_tags = ", ".join(build_tags(clip, seo))
     credit = ""
     if meta.get("uploader") or meta.get("url"):
         credit = f"\n\nOriginal: {meta.get('uploader') or ''} {meta.get('url') or ''}".rstrip()
     body = (
         f"TITLE:\n{clip.get('title', '')}\n\n"
         f"DESCRIPTION:\n{clip.get('description', '')}{credit}\n\n{tags}\n\n"
+        f"TAGS (paste into YouTube Studio > Tags):\n{yt_tags}\n\n"
         f"COMMENTARY:\n{clip.get('commentary', '')}\n"
     )
     path.write_text(body, encoding="utf-8")
